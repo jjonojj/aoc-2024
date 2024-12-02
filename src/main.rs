@@ -6,11 +6,11 @@ fn main() {
     let mut map: HashMap<u8, (fn(), fn())> = HashMap::new();
     // put days here
     map.insert(1, (day01::part1, day01::part2));
-    let mut input = String::new();
-
-    print!("enter day:number > ");
-
+    
     std::io::stdout().flush().unwrap();
+    let mut input = String::new();
+    print!("enter day:number > ");
+    
     std::io::stdin().read_line(&mut input).unwrap();
 
     let nums = input.trim().split(":").collect::<Vec<_>>();
