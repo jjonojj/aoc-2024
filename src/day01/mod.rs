@@ -1,21 +1,16 @@
 // day 01 - aoc
 
+use crate::utils::AocDay;
 const INPUTS: &str = include_str!("inputs.txt");
+
+pub struct DayOne;
 
 fn parse() -> (Vec<i32>, Vec<i32>) {
     let mut pairs = (Vec::new(), Vec::new());
-    for line in INPUTS.split("\n") {
+    for line in INPUTS.trim().split("\n") {
         let pair_str = line.trim().split("   ").collect::<Vec<_>>();
-        // very bad bug fix
-        if pair_str.len() < 2 {
-            continue;
-        }
-        pairs
-            .0
-            .push(pair_str.get(0).unwrap().parse::<i32>().unwrap());
-        pairs
-            .1
-            .push(pair_str.get(1).unwrap().parse::<i32>().unwrap());
+        pairs.0.push(pair_str[0].parse::<i32>().unwrap());
+        pairs.1.push(pair_str[1].parse::<i32>().unwrap());
     }
 
     pairs.0.sort();
@@ -47,10 +42,12 @@ fn get_similarity(parsed: (Vec<i32>, Vec<i32>)) -> u64 {
     sum
 }
 
-pub fn part1() {
-    println!("part 1: {}", get_dists(parse()))
-}
+impl AocDay for DayOne {
+    fn part1() {
+        println!("day 1 - part 1: {}", get_dists(parse()))
+    }
 
-pub fn part2() {
-    println!("part 2: {}", get_similarity(parse()))
+    fn part2() {
+        println!("day 1 - part 2: {}", get_similarity(parse()))
+    }
 }
