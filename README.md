@@ -8,3 +8,5 @@ holy moly advent of code!!!!!
 
 - [x] day 1 p1
 - [x] day 1 p2
+- [ ] day 2 p1
+- [ ] day 2 p2
