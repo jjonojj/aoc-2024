@@ -17,6 +17,7 @@ fn main() {
     assert!(nums.len() > 1);
     let part = nums.get(0).unwrap().parse::<i32>().unwrap() as u8;
 
+    // tidy up!!!!
     match nums.get(1).unwrap().parse::<i32>().unwrap() {
         1 => map
             .get(&part)
