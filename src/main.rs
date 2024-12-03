@@ -4,10 +4,8 @@ pub mod utils;
 
 mod day01;
 mod day02;
+mod day03;
 
 fn main() {
-    day01::DayOne::part1();
-    day01::DayOne::part2();
-    day02::DayTwo::part1();
-    day02::DayTwo::part2();
+    day03::DayThree::part2();
 }
