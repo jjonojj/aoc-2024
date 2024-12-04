@@ -3,7 +3,5 @@ pub trait AocDay {
     fn part2();
 }
 
-pub enum Part {
-    Part1,
-    Part2,
-}
+#[derive(PartialEq, Eq, Hash, Clone, Copy)]
+pub struct Point(pub i32, pub i32);
