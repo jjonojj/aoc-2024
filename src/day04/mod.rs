@@ -81,7 +81,6 @@ fn x_mas_count() -> u64 {
             }
         })
     });
-    println!("a count: {}", ac);
 
     for ap in aps {
         cnt += check_x_mas(&xmasgrid, ap) as u64
