@@ -8,4 +8,6 @@ mod day03;
 mod day04;
 mod day05;
 
-fn main() {}
+fn main() {
+    day05::DayFive::part1();
+}
