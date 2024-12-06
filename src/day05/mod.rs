@@ -1,22 +1,27 @@
 // day 05
 const INPUTS: &str = include_str!("inputs.txt");
 
+use std::collections::HashSet;
+
 use crate::utils::AocDay;
-use regex::Regex;
 pub struct DayFive;
 
 fn get_middle_nums_ok() -> u64 {
-    let cnt = 0u64;
+    let mut cnt = 0u64;
+
+    let (rules, updates) = parse_file();
+    for u in updates {
+        if is_upd_ok(&rules, &u).is_empty() {
+            cnt += u[u.len() / 2] as u64;
+        }
+    }
 
     cnt
 }
 
-fn parse_file() -> (Vec<(i32, i32)>, Vec<Vec<i32>>) {
-    let mut rules = Vec::new();
+fn parse_file() -> (HashSet<String>, Vec<Vec<i32>>) {
+    let mut rules = HashSet::new();
     let mut updates = Vec::new();
-
-    let rule_re = Regex::new(r"(\d+\|\d+)").unwrap();
-    let update_re = Regex::new(r"(\d+,?)+").unwrap();
 
     let mut rules_done = false;
 
@@ -26,17 +31,68 @@ fn parse_file() -> (Vec<(i32, i32)>, Vec<Vec<i32>>) {
             continue;
         }
         if !rules_done {
-            let nums = rule_re.find_iter(line).collect::<Vec<_>>();
-            assert!(nums.len() == 2);
-            let a: i32 = nums[0].as_str().parse().unwrap();
-            let b: i32 = nums[1].as_str().parse().unwrap();
-            rules.push((a, b));
+            rules.insert(line.to_owned());
         } else {
-            // tbd
-            todo!()
+            updates.push(
+                line.trim()
+                    .split(",")
+                    .map(|s| s.parse::<i32>().unwrap())
+                    .collect::<Vec<_>>(),
+            );
         }
     }
     (rules, updates)
+}
+
+fn is_upd_ok(rules: &HashSet<String>, update: &Vec<i32>) -> Vec<String> {
+    let mut violations = Vec::new();
+    for i in 0..update.len() {
+        for j in (i + 1)..update.len() {
+            let inverse_rule = format!("{}|{}", update[j], update[i]);
+            if rules.contains(&inverse_rule) {
+                violations.push(inverse_rule);
+            }
+        }
+    }
+    violations
+}
+
+fn sort_wrong_updates() -> u64 {
+    let mut cnt = 0u64;
+
+    let (rules, updates) = parse_file();
+    for u in updates {
+        if !is_upd_ok(&rules, &u).is_empty() {
+            let nu = sort_update(&rules, u);
+            cnt += nu[nu.len() / 2] as u64;
+        }
+    }
+
+    cnt
+}
+
+fn sort_update(rules: &HashSet<String>, update: Vec<i32>) -> Vec<i32> {
+    let mut nu = update.clone();
+
+    loop {
+        let violations = is_upd_ok(rules, &nu);
+        if violations.is_empty() {
+            return nu;
+        };
+        for violation in violations {
+            let parts = violation
+                .split('|')
+                .flat_map(str::parse)
+                .collect::<Vec<i32>>();
+            let a = &parts[0];
+            let b = &parts[1];
+
+            let a_index = nu.iter().position(|c| c == a).unwrap();
+            let b_index = nu.iter().position(|c| c == b).unwrap();
+
+            nu.swap(a_index, b_index);
+        }
+    }
 }
 
 impl AocDay for DayFive {
@@ -45,6 +101,6 @@ impl AocDay for DayFive {
     }
 
     fn part2() {
-        println!("day 4 - part 2: {}", 0);
+        println!("day 4 - part 2: {}", sort_wrong_updates());
     }
 }
