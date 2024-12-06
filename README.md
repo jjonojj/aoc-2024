@@ -14,5 +14,7 @@ change main.rs to run the days you want and `cargo run`.
 - [x] day 3 p2
 - [x] day 4 p1
 - [x] day 4 p2
-- [ ] day 5 p1
-- [ ] day 5 p2
+- [x] day 5 p1
+- [x] day 5 p2
+- [ ] day 6 p1
+- [ ] day 6 p2
